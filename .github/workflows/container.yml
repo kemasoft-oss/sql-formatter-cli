@@ -1,10 +1,11 @@
+---
 name: build-and-push-image
 
 on:
   push:
     branches: ["main"]
   schedule:
-    - cron: "0 3 * * 1" # weekly Mon 03:00 UTC
+    - cron: "0 3 * * 1"  # weekly Mon 03:00 UTC
   workflow_dispatch:
 
 permissions:
@@ -18,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up QEMU (optional: multi-arch)
+      - name: "Set up QEMU (optional: multi-arch)"
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Buildx
@@ -48,3 +49,5 @@ jobs:
           tags: "${{ steps.meta.outputs.tags }}"
           labels: "${{ steps.meta.outputs.labels }}"
           # platforms: linux/amd64,linux/arm64
+
+# vim: set ft=yaml ff=unix expandtab ts=2 sw=0 sts=-1 autoread :
