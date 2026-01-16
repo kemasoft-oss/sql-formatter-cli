@@ -2,10 +2,10 @@ name: build-and-push-image
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: "0 3 * * 1"   # 毎週 月曜 03:00 UTC
-  workflow_dispatch: {}
+    - cron: "0 3 * * 1" # weekly Mon 03:00 UTC
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -28,14 +28,14 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: Extract metadata (tags/labels)
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository_owner }}/sql-formatter-cli
+          images: "ghcr.io/${{ github.repository_owner }}/sql-formatter-cli"
           tags: |
             type=raw,value=latest
             type=sha,format=short
@@ -45,7 +45,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          # platforms: linux/amd64,linux/arm64  # multi-archしたいなら有効化
-
+          tags: "${{ steps.meta.outputs.tags }}"
+          labels: "${{ steps.meta.outputs.labels }}"
+          # platforms: linux/amd64,linux/arm64
